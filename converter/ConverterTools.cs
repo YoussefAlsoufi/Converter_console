@@ -9,31 +9,38 @@ namespace Converter
 {
 	public class ConverterTools
 	{
-        public NameValueCollection lengthSection, dataTypeSection;
-		string errorMessage = "";
+        public NameValueCollection lengthSection, dataTypeSection, tempretureSection;
+        string resultMessage = "";
         public ConverterTools()
 		{
             this.lengthSection = (NameValueCollection)ConfigurationManager.GetSection("Length");
             this.dataTypeSection = (NameValueCollection)ConfigurationManager.GetSection("Data");
+            this.tempretureSection = (NameValueCollection)ConfigurationManager.GetSection("Tempreture");
         }
 
         public string DoConvert(string num, string fromUnit, string toUnit)
 		{
 	
 			double result = 0;
-			string resultMessage;
+
 			var (checkStatus, usedSection)  = GenericCheckInputs(num, fromUnit, toUnit);
 			if (checkStatus)
 			{
 				double inputValue = Convert.ToDouble(num);
-				double from = Convert.ToDouble(usedSection[Singularize(fromUnit)]);
-				double to = Convert.ToDouble(usedSection[Singularize(toUnit)]);
+				if (usedSection == tempretureSection)
+				{
+					result= tempConvert(inputValue, Singularize(fromUnit), Singularize(toUnit));
+				}
+				else
+				{
+                    double from = Convert.ToDouble(usedSection[Singularize(fromUnit)]);
+                    double to = Convert.ToDouble(usedSection[Singularize(toUnit)]);
 
-				result = inputValue * from / to;
+                    result = inputValue * from / to;
+          
+                }
 
-	
-				 resultMessage = $"( {num} {fromUnit},  {toUnit}) -> {result.ToString()}";       
-
+                resultMessage = $"( {num} {fromUnit},  {toUnit}) -> {result.ToString()}";
             }
 			else
 			{
@@ -45,33 +52,44 @@ namespace Converter
 
         private (bool valid, NameValueCollection Usedsection)  GenericCheckInputs(string inputNum, string fromUnit, string toUnit)
         {
-			NameValueCollection Usedsection;
+			NameValueCollection Usedsection = new NameValueCollection();
+			bool wrongInputs = true;
 
-            if (this.lengthSection.AllKeys.Contains(fromUnit))
+            if (this.lengthSection.AllKeys.Contains(Singularize(fromUnit)))
 			{
                 Usedsection = lengthSection;
-			}else
+			}
+			else if((this.dataTypeSection.AllKeys.Contains(Singularize(fromUnit))))
 			{
                 Usedsection = dataTypeSection;
 
             }
+			else if (this.tempretureSection.AllKeys.Contains(Singularize(fromUnit)))
+            {
+				Usedsection = tempretureSection;
+            }
+			else
+			{
+				 wrongInputs = false;
+			}
             bool emptyCheck = ((!String.IsNullOrEmpty(inputNum)) && (!String.IsNullOrEmpty(fromUnit)) && (!String.IsNullOrEmpty(toUnit)));
-            bool validNum = int.TryParse(inputNum, out int n) && n > 0;
+			bool validNum = int.TryParse(inputNum, out int n);
             bool validInput = (Usedsection.AllKeys.Contains(Singularize(fromUnit)) && Usedsection.AllKeys.Contains(Singularize(toUnit)));
+			bool positiveValue = true ? ((tempretureSection.AllKeys.Contains(Singularize(fromUnit))) || n > 0) : false;
 
-            return ((validInput && validNum && emptyCheck), Usedsection);
+      
+            return ((validInput && validNum && emptyCheck && wrongInputs && positiveValue), Usedsection);
         }
 
-  //      private static bool checkcheckInputs(NameValueCollection section, string inputNum, string fromUnit, string toUnit)
-		//{
-
-		//	bool emptyCheck = ((!String.IsNullOrEmpty(inputNum)) && (!String.IsNullOrEmpty(fromUnit)) && (!String.IsNullOrEmpty(toUnit)));
-		//	bool validNum = int.TryParse(inputNum, out int n) && n > 0;
-		//	bool validInput = (section.AllKeys.Contains(Singularize(fromUnit)) && section.AllKeys.Contains(Singularize(toUnit)));
-
-		//	return (validInput && validNum && emptyCheck);
-		//}
-
+		private static double tempConvert(double tempInput, string fromTempUnit, string toTempUnit)
+		{
+			if (fromTempUnit== "celsiu")
+			{
+				var result = (tempInput * 1.8) + 32;
+				return result;
+			}
+			return ((tempInput - 32) / 1.8);
+		}
         protected static string Singularize(string inputString)
         {
 			if (!string.IsNullOrEmpty(inputString))
