@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="NUnit.Analyzers" Version="3.3.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
+    <PackageReference Include="Unofficial.Microsoft.VisualStudio.QualityTools.UnitTestFramework" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\converter\converter.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ConverterClassLibrary" />
+    <None Remove="Unofficial.Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+    <None Remove="converter" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ConverterClassLibrary">
+      <HintPath>..\..\ConverterClassLibrary\ConverterClassLibrary\bin\Debug\net7.0\ConverterClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="converter">
+      <HintPath>..\converter\bin\Debug\net7.0\converter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
