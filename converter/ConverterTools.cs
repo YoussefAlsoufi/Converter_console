@@ -90,7 +90,7 @@ namespace Converter
 			}
 			return ((tempInput - 32) / 1.8);
 		}
-        protected static string Singularize(string inputString)
+        public static string Singularize(string inputString)
         {
 			if (!string.IsNullOrEmpty(inputString))
 			{

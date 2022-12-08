@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Configuration;
 using Converter;
+using ConverterClassLibrary;
 
     class Program
     {
@@ -9,8 +10,9 @@ using Converter;
             {
             
             ConverterTools converter = new ConverterTools();
+            var convertClass = new ConverterLibrary();
 
-            //Test Samples:
+            //Test Samples by using Converter_Console_App:
             Console.Write("feet > decifeet  \n");
             Console.Write(converter.DoConvert("4", "feet", "decifeets") + "\n");
 
@@ -76,6 +78,14 @@ using Converter;
 
             Console.Write("fahrenheit > Celsius  \n");
             Console.Write(converter.DoConvert("12", "fahrenheit", "Celsius") + "\n");
+
+            //Test Samples by using ConverterClassLibrary after adding 'ConvertClassLibrary.dll file to the Converter.Dependencies':
+
+            Console.Write("fahrenheit > Celsius using a converterLibrary \n");
+            Console.Write(convertClass.DoConvert("12", "fahrenheit", "Celsius") + "\n");
+
+            Console.Write("byte > kilobyte using a converterLibrary  \n");
+            Console.Write(converter.DoConvert("4", "bytes", "kilobyte") + "\n");
 
             Console.Write("");
             }
