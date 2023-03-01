@@ -30,3 +30,11 @@
 /Users/josef/Projects/converter/converter/bin/Debug/net7.0/converter.dll.config
 /Users/josef/Projects/converter/converter/bin/Debug/net7.0/System.Data.Entity.Design.PluralizationServices.dll
 /Users/josef/Projects/converter/converter/bin/Debug/net7.0/PluralizeService.Core.dll
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.csproj.AssemblyReference.cache
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.GeneratedMSBuildEditorConfig.editorconfig
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.AssemblyInfoInputs.cache
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.AssemblyInfo.cs
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.csproj.CoreCompileInputs.cache
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.dll
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/refint/converter.dll
+/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/Debug/net7.0/converter.pdb

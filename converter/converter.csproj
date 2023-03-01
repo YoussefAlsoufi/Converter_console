@@ -17,4 +17,9 @@
     <PackageReference Include="PluralizeService.Core" Version="1.2.21147.2" />
     <PackageReference Include="HiNetCloud.System.Data.Entity.Design.PluralizationServices" Version="22.11.2.8" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ConverterClassLibrary">
+      <HintPath>..\..\..\ConverterClassLibrary\ConverterClassLibrary\bin\Debug\net7.0\ConverterClassLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

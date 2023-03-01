@@ -436,11 +436,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/josef/Projects/converter/converter/converter.csproj",
+      "projectUniqueName": "/Users/josef/Projects/Converter_Console/Converter_console/converter/converter.csproj",
       "projectName": "converter",
-      "projectPath": "/Users/josef/Projects/converter/converter/converter.csproj",
+      "projectPath": "/Users/josef/Projects/Converter_Console/Converter_console/converter/converter.csproj",
       "packagesPath": "/Users/josef/.nuget/packages/",
-      "outputPath": "/Users/josef/Projects/converter/converter/obj/",
+      "outputPath": "/Users/josef/Projects/Converter_Console/Converter_console/converter/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/josef/.nuget/NuGet/NuGet.Config"
@@ -497,7 +497,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.200/RuntimeIdentifierGraph.json"
       }
     }
   },

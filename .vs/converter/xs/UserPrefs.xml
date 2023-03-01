@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{0191B22B-8AF7-45C5-AD03-9A7F0E8CAA92}|Default">
+  <MonoDevelop.Ide.ItemProperties.converter PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../ConverterClassLibrary/ConverterClassLibrary/ConverterLibrary.cs">
+    <Files>
+      <File FileName="converter/ConverterTools.cs" />
+      <File FileName="converter/Tester.cs" Line="4" Column="29" />
+      <File FileName="../../ConverterClassLibrary/ConverterClassLibrary/ConverterLibrary.cs" Line="62" Column="10" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="converter" expanded="True">
+            <Node name="converter" expanded="True" selected="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+</Properties>

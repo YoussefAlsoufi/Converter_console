@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3wfURIDOWZucX0TsVh0sPspRrCuVY/5OBd2ijfUyHV6pq8VfNtbY3H5AJ7SaPzfDsc+VJQ0vJeTU22n0N2LbzA==",
+  "dgSpecHash": "DAqhOK6oqdWGrCcFNT6Uabsm9J2pcwup3hKOIAaon2mHC1vZgu72XeG9/1djhMMWxRyIKR2p6Ac3jiAocixRwA==",
   "success": true,
-  "projectFilePath": "/Users/josef/Projects/converter/converter/converter.csproj",
+  "projectFilePath": "/Users/josef/Projects/Converter_Console/Converter_console/converter/converter.csproj",
   "expectedPackageFiles": [
     "/Users/josef/.nuget/packages/hinetcloud.system.data.entity.design.pluralizationservices/22.11.2.8/hinetcloud.system.data.entity.design.pluralizationservices.22.11.2.8.nupkg.sha512",
     "/Users/josef/.nuget/packages/microsoft.win32.systemevents/7.0.0/microsoft.win32.systemevents.7.0.0.nupkg.sha512",
