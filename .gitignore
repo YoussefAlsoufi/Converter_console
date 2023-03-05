@@ -5,6 +5,7 @@
 # compiled source #
 ###################
 **/*.dll
+**/*.DS_Store
 *.com
 *.class
 *.dll
@@ -59,6 +60,7 @@ TestResults/
 # OS generated files #
 ######################
 .DS_Store?
+.DS_Store
 ehthumbs.db
 Icon?
 Thumbs.db
