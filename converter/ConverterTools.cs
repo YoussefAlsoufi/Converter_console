@@ -4,19 +4,27 @@ using System.Configuration;
 using System.Linq;
 using System.Data.Entity.Design.PluralizationServices;
 using System.Globalization;
+using converter;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace Converter
 {
     public class ConverterTools
     {
-        public NameValueCollection? lengthSection, dataTypeSection, tempretureSection;
+        public List<GetParama>? lengthSection, dataTypeSection, tempretureSection;
         string resultMessage = "";
 
         public ConverterTools()
         {
-            this.lengthSection = (NameValueCollection?)ConfigurationManager.GetSection("Length");
-            this.dataTypeSection = (NameValueCollection?)ConfigurationManager.GetSection("Data");
-            this.tempretureSection = (NameValueCollection?)ConfigurationManager.GetSection("Tempreture");
+        
+            var config = ConfigReader.GetConfig();
+
+            this.lengthSection = config.GetSection("Length").Get<List<GetParama>>();
+            this.dataTypeSection = config.GetSection("Data").Get<List<GetParama>>();
+            this.tempretureSection = config.GetSection("Tempreture").Get<List<GetParama>>();
+            
+
         }
 
         public string DoConvert(string num, string fromUnit, string toUnit)
@@ -35,8 +43,9 @@ namespace Converter
                 }
                 else
                 {
-                    double from = Convert.ToDouble(usedSection[Singularize(fromUnit)]);
-                    double to = Convert.ToDouble(usedSection[Singularize(toUnit)]);
+                    var usedSectionDic  = usedSection?.ToDictionary(x => x._key, x => x._value);
+                    double from = Convert.ToDouble(usedSectionDic?[Singularize(fromUnit)]);
+                    double to = Convert.ToDouble(usedSectionDic?[Singularize(toUnit)]);
 
                     result = inputValue * from / to;
 
@@ -52,24 +61,24 @@ namespace Converter
             return resultMessage;
         }
 
-        private (bool valid, NameValueCollection Usedsection) GenericCheckInputs(string inputNum, string fromUnit, string toUnit)
+        private (bool valid, List<GetParama> Usedsection) GenericCheckInputs(string inputNum, string fromUnit, string toUnit)
         {
-            NameValueCollection UsedSection = new();
+            List<GetParama>? UsedSection = new();
             bool wrongInputs = true;
             bool emptyCheck, validNum, validInput, positiveValue;
 
             if (inputNum is not null && fromUnit is not null && toUnit is not null)
             {
-                if (lengthSection is not null && lengthSection.AllKeys.Contains(Singularize(fromUnit)))
+                if (lengthSection is not null && (lengthSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))))
                 {
                     UsedSection = lengthSection;
                 }
-                else if (dataTypeSection is not null && dataTypeSection.AllKeys.Contains(Singularize(fromUnit)))
+                else if (dataTypeSection is not null && (dataTypeSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))))
                 {
                     UsedSection = dataTypeSection;
 
                 }
-                else if (tempretureSection is not null && tempretureSection.AllKeys.Contains(Singularize(fromUnit)))
+                else if (tempretureSection is not null && (tempretureSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))))
                 {
                     UsedSection = tempretureSection;
                 }
@@ -80,8 +89,8 @@ namespace Converter
 
                 emptyCheck = (!String.IsNullOrEmpty(inputNum)) && (!String.IsNullOrEmpty(fromUnit)) && (!String.IsNullOrEmpty(toUnit));
                 validNum = int.TryParse(inputNum, out int n);
-                validInput = UsedSection.AllKeys.Contains(Singularize(fromUnit)) && UsedSection.AllKeys.Contains(Singularize(toUnit));
-                positiveValue = true ? (tempretureSection is not null && tempretureSection.AllKeys.Contains(Singularize(fromUnit)) || n > 0) : false;
+                validInput = (UsedSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))) && (UsedSection.Select(i => i._key).ToList().Contains(Singularize(toUnit)));
+                positiveValue = true ? (tempretureSection is not null && (tempretureSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))) || n > 0) : false;
 
 
                 return (validInput && validNum && emptyCheck && wrongInputs && positiveValue, UsedSection);
