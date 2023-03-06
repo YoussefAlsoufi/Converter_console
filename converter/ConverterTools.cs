@@ -44,6 +44,10 @@ namespace Converter
                 else
                 {
                     var usedSectionDic  = usedSection?.ToDictionary(x => x._key, x => x._value);
+                    var te = Singularize(fromUnit);
+                    var testt = usedSectionDic?[Singularize(fromUnit)];
+                    var doub = double.Parse("0.3048", System.Globalization.CultureInfo.InvariantCulture);
+
                     double from = Convert.ToDouble(usedSectionDic?[Singularize(fromUnit)]);
                     double to = Convert.ToDouble(usedSectionDic?[Singularize(toUnit)]);
 
@@ -97,7 +101,7 @@ namespace Converter
             }
             else
             {
-                Console.WriteLine("The Section is not exist, please add a collection in Config file");
+                Console.WriteLine("One of your inputs at least is Null, please check and try again!");
                 return (false, UsedSection);
 
 
