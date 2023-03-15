@@ -7,7 +7,7 @@ using System.Globalization;
 using converter;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
-
+using static converter.Length;
 namespace Converter
 {
     public class ConverterTools
@@ -17,16 +17,23 @@ namespace Converter
 
         public ConverterTools()
         {
-        
-            var config = ConfigReader.GetConfig();
 
+            // NuGet needs including Binder and Json packages
+            var config = ConfigReader.GetConfig();
+            
             this.lengthSection = config.GetSection("Length").Get<List<GetParama>>();
             this.dataTypeSection = config.GetSection("Data").Get<List<GetParama>>();
             this.tempretureSection = config.GetSection("Tempreture").Get<List<GetParama>>();
-            
 
         }
 
+        public string Test(string num, string fromUnit, string toUnit)
+        {
+            if (Length.test().Contain("meter"))
+            {
+
+            }
+        } 
         public string DoConvert(string num, string fromUnit, string toUnit)
         {
 

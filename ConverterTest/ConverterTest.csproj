@@ -27,5 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\converter\converter.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 </Project>
