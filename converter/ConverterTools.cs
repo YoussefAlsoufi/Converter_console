@@ -1,62 +1,54 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Linq;
-using System.Data.Entity.Design.PluralizationServices;
-using System.Globalization;
-using converter;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using static converter.Length;
+﻿using Common.Common;
+
 namespace Converter
 {
     public class ConverterTools
     {
-        public List<GetParama>? lengthSection, dataTypeSection, tempretureSection;
+        public Dictionary<object, object>? lengthDic, dataTypeDic, tempertureDic;
         string resultMessage = "";
 
         public ConverterTools()
         {
-
             // NuGet needs including Binder and Json packages
-            var config = ConfigReader.GetConfig();
-            
-            this.lengthSection = config.GetSection("Length").Get<List<GetParama>>();
-            this.dataTypeSection = config.GetSection("Data").Get<List<GetParama>>();
-            this.tempretureSection = config.GetSection("Tempreture").Get<List<GetParama>>();
+            var length = new Length();
+            lengthDic = length.GetType()
+                                 .GetFields()
+                                 .Select(field => new object[] { field.Name, field.GetValue(length) })
+                                 .ToArray().ToDictionary(key => key[0], value => value[1]);
+
+            var data = new DataType();
+            dataTypeDic = data.GetType()
+                                 .GetFields()
+                                 .Select(field => new object[] { field.Name, field.GetValue(data) })
+                                 .ToArray().ToDictionary(key => key[0], value => value[1]);
+
+            var temperture = new Temperture();
+            tempertureDic = temperture.GetType()
+                                 .GetFields()
+                                 .Select(field => new object[] { field.Name, field.GetValue(temperture) })
+                                 .ToArray().ToDictionary(key => key[0], value => value[1]);
 
         }
 
-        public string Test(string num, string fromUnit, string toUnit)
-        {
-            if (Length.test().Contain("meter"))
-            {
 
-            }
-        } 
         public string DoConvert(string num, string fromUnit, string toUnit)
         {
-
-
-            double result;
-
-            var (checkStatus, usedSection) = GenericCheckInputs(num, fromUnit, toUnit);
+            double result = 0.0;
+            var toUnitValue = Singularize(toUnit);
+            var fromUnitValue = Singularize(fromUnit);
+            var (checkStatus, usedSection) = GenericCheckInputs(num, fromUnitValue, toUnitValue);
             if (checkStatus)
             {
                 double inputValue = Convert.ToDouble(num);
-                if (usedSection == tempretureSection)
+                if (usedSection == tempertureDic)
                 {
-                    result = tempConvert(inputValue, Singularize(fromUnit), Singularize(toUnit));
+                    result = TempConvert(inputValue, fromUnitValue, toUnitValue);
                 }
-                else
+                if (usedSection == lengthDic)
                 {
-                    var usedSectionDic  = usedSection?.ToDictionary(x => x._key, x => x._value);
-                    var te = Singularize(fromUnit);
-                    var testt = usedSectionDic?[Singularize(fromUnit)];
-                    var doub = double.Parse("0.3048", System.Globalization.CultureInfo.InvariantCulture);
 
-                    double from = Convert.ToDouble(usedSectionDic?[Singularize(fromUnit)]);
-                    double to = Convert.ToDouble(usedSectionDic?[Singularize(toUnit)]);
+                    double from = Convert.ToDouble(lengthDic[fromUnitValue]);
+                    double to = Convert.ToDouble(lengthDic[toUnitValue]);
 
                     result = inputValue * from / to;
 
@@ -72,26 +64,26 @@ namespace Converter
             return resultMessage;
         }
 
-        private (bool valid, List<GetParama> Usedsection) GenericCheckInputs(string inputNum, string fromUnit, string toUnit)
+        private (bool valid, Dictionary<object, object> Usedsection) GenericCheckInputs(string inputNum, string fromUnit, string toUnit)
         {
-            List<GetParama>? UsedSection = new();
+            Dictionary<object, object>? UsedSection = new();
             bool wrongInputs = true;
             bool emptyCheck, validNum, validInput, positiveValue;
 
             if (inputNum is not null && fromUnit is not null && toUnit is not null)
             {
-                if (lengthSection is not null && (lengthSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))))
+                if (lengthDic is not null && (lengthDic.ContainsKey(fromUnit)))
                 {
-                    UsedSection = lengthSection;
+                    UsedSection = lengthDic;
                 }
-                else if (dataTypeSection is not null && (dataTypeSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))))
+                else if (dataTypeDic is not null && (dataTypeDic.ContainsKey(fromUnit)))
                 {
-                    UsedSection = dataTypeSection;
+                    UsedSection = dataTypeDic;
 
                 }
-                else if (tempretureSection is not null && (tempretureSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))))
+                else if (tempertureDic is not null && (tempertureDic.ContainsKey(fromUnit)))
                 {
-                    UsedSection = tempretureSection;
+                    UsedSection = tempertureDic;
                 }
                 else
                 {
@@ -100,8 +92,8 @@ namespace Converter
 
                 emptyCheck = (!String.IsNullOrEmpty(inputNum)) && (!String.IsNullOrEmpty(fromUnit)) && (!String.IsNullOrEmpty(toUnit));
                 validNum = int.TryParse(inputNum, out int n);
-                validInput = (UsedSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))) && (UsedSection.Select(i => i._key).ToList().Contains(Singularize(toUnit)));
-                positiveValue = true ? (tempretureSection is not null && (tempretureSection.Select(i => i._key).ToList().Contains(Singularize(fromUnit))) || n > 0) : false;
+                validInput = (UsedSection.ContainsKey(fromUnit)) && (UsedSection.ContainsKey(toUnit));
+                positiveValue = true ? (tempertureDic is not null && (tempertureDic.ContainsKey(fromUnit)) || n > 0) : false;
 
 
                 return (validInput && validNum && emptyCheck && wrongInputs && positiveValue, UsedSection);
@@ -116,7 +108,7 @@ namespace Converter
 
         }
 
-        private static double tempConvert(double tempInput, string fromTempUnit, string toTempUnit)
+        private static double TempConvert(double tempInput, string fromTempUnit, string toTempUnit)
         {
             if (fromTempUnit == "celsiu")
             {
