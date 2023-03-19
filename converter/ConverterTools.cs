@@ -1,4 +1,6 @@
-﻿using Common.Common;
+﻿using System;
+using System.Globalization;
+using Common.Common;
 
 namespace Converter
 {
@@ -33,35 +35,44 @@ namespace Converter
 
         public string DoConvert(string num, string fromUnit, string toUnit)
         {
-            double result = 0.0;
-            var toUnitValue = Singularize(toUnit);
-            var fromUnitValue = Singularize(fromUnit);
-            var (checkStatus, usedSection) = GenericCheckInputs(num, fromUnitValue, toUnitValue);
-            if (checkStatus)
+            try
             {
-                double inputValue = Convert.ToDouble(num);
-                if (usedSection == tempertureDic)
+                //double result;
+                double result=0.0;
+                var toUnitValue = Singularize(toUnit);
+                var fromUnitValue = Singularize(fromUnit);
+                var (checkStatus, usedSection) = GenericCheckInputs(num, fromUnitValue, toUnitValue);
+                if (checkStatus)
                 {
-                    result = TempConvert(inputValue, fromUnitValue, toUnitValue);
+                    //double inputValue = Convert.ToDouble(num);
+                    var inputValue = float.Parse(num, CultureInfo.InvariantCulture.NumberFormat);
+                    if (usedSection == tempertureDic)
+                    {
+                        result = TempConvert(inputValue, fromUnitValue, toUnitValue);
+
+                    }
+                    else
+                    {
+                        double from = Convert.ToDouble(usedSection?[fromUnitValue]);
+                        double to = Convert.ToDouble(usedSection?[toUnitValue]);
+
+                        result = (double)(inputValue * from / to);
+                    }
+
+                    return $"( {num} {fromUnit},  {toUnit}) -> {result}";
                 }
-                if (usedSection == lengthDic)
+                else
                 {
-
-                    double from = Convert.ToDouble(lengthDic[fromUnitValue]);
-                    double to = Convert.ToDouble(lengthDic[toUnitValue]);
-
-                    result = inputValue * from / to;
-
+                    return $"Please, Check your Inputs again! you have entered incorrect units or nulls.";
                 }
-
-                resultMessage = $"( {num} {fromUnit},  {toUnit}) -> {result}";
             }
-            else
+            catch
             {
-                resultMessage = $"Please, Check your Inputs again! you have entered incorrect units or nulls.";
+                return " One of your inputs isn't existed, please check again!";
             }
 
-            return resultMessage;
+
+            
         }
 
         private (bool valid, Dictionary<object, object> Usedsection) GenericCheckInputs(string inputNum, string fromUnit, string toUnit)
@@ -122,8 +133,16 @@ namespace Converter
             if (!string.IsNullOrEmpty(inputString))
             {
                 var Singular = System.Data.Entity.Design.PluralizationServices.PluralizationService.CreateService(new System.Globalization.CultureInfo("en-us"));
-                var test = Singular.Singularize(inputString).ToLower().Trim();
-                return Singular.Singularize(inputString).ToLower().Trim();
+                var finalValue = Singular.Singularize(inputString).ToLower().Trim();
+                if (finalValue.Equals("byte"))
+                {
+                    return "Byte";
+                }
+                else
+                {
+                    return finalValue;
+                }
+                 
             }
             else
             {

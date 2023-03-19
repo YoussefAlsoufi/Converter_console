@@ -6,14 +6,14 @@ namespace ConverterTest;
 
 public class ConverterToolsTest
 {
-    ConverterTools converter = new();
+    private readonly ConverterTools converter = new();
 
     
     [Fact]
     public void LengthConverterTest()
     {
-        Assert.NotNull(converter.lengthSection);
-        //Assert.Equal("( 2 kilometer,  meter) -> 2000", converter.DoConvert("4", "feet", "decifeets"));
+        Assert.NotNull(converter.lengthDic);
+        Assert.Equal("( 2 kilometer,  meter) -> 2000", converter.DoConvert("4", "feet", "decifeets"));
         Assert.Equal("( 2 kilometer,  meter) -> 2000", converter.DoConvert("2", "kilometer", "meter"));
         Assert.Equal("( 4 feet,  Picofeets) -> 400000000000000.06", converter.DoConvert("4", "feet", "Picofeets"));
         Assert.Equal("( 4 inches,  kiloinch) -> 0.004", converter.DoConvert("4", "inches", "kiloinch"));
@@ -32,7 +32,7 @@ public class ConverterToolsTest
     [Fact]
     public void DatatypeConverterTest()
     {
-        Assert.NotNull(converter.dataTypeSection);
+        Assert.NotNull(converter.dataTypeDic);
         Assert.Equal("( 4 bytes,  bits) -> 32", converter.DoConvert("4", "bytes", "bits"));
         Assert.Equal("( 4 bytes,  kilobyte) -> 0.00390625", converter.DoConvert("4", "bytes", "kilobyte"));
         Assert.Equal("Please, Check your Inputs again! you have entered incorrect units or nulls.", converter.DoConvert("4", "bytes", "meters"));
@@ -42,7 +42,7 @@ public class ConverterToolsTest
     [Fact]
     public void TempretureConverterTest()
     {
-        Assert.NotNull(converter.tempretureSection);
+        Assert.NotNull(converter.tempertureDic);
         Assert.Equal("( -122 fahrenheit,  Celsius) -> -85.55555555555556", converter.DoConvert("-122", "fahrenheit", "Celsius"));
         Assert.Equal("( 5 Celsius,  fahrenheit) -> 41", converter.DoConvert("5", "Celsius", "fahrenheit"));
         Assert.Equal("( 12 fahrenheit,  Celsius) -> -11.11111111111111", converter.DoConvert("12", "fahrenheit", "Celsius"));

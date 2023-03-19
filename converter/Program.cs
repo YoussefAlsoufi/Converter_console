@@ -84,6 +84,7 @@ class Program
             Console.Write(converter.DoConvert("12", "fahrenheit", "Celsius") + "\n");
 
             //Test Samples by using ConverterClassLibrary after adding 'ConvertClassLibrary.dll file to the Converter.Dependencies':
+            Console.Write("Using Converter Library: \n");
 
             Console.Write("fahrenheit > Celsius using a converterLibrary \n");
             Console.Write(convertClass.DoConvert("12", "fahrenheit", "Celsius") + "\n");
