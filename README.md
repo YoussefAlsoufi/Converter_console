@@ -2,6 +2,7 @@
 
 ### Converter Console is a Console app as a part of the Converter series. 
 #### ConverterTools file has all the required functions to do the conversion process. Program.cs as a main function includes all run callers.  
+##### Common Project includes the data sources to be accessed to both Convreter and ConverterTest projects.
 
 ### ConverterTest is a XUnit test, contains three functions to test the conversion process for all Unit sections.
 
